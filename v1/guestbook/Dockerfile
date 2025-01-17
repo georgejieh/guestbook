@@ -1,5 +1,4 @@
-# Stage 1: Build the Go application
-FROM golang:1.18 as builder
+FROM golang:1.18 AS builder
 
 WORKDIR /app
 
@@ -10,7 +9,6 @@ RUN go mod tidy
 
 RUN go build -o main main.go
 
-# Stage 2: Create the runtime image
 FROM ubuntu:18.04
 
 # Copy the built Go binary from the builder stage
@@ -22,11 +20,8 @@ ADD public/script.js /app/public/script.js
 ADD public/style.css /app/public/style.css
 ADD public/jquery.min.js /app/public/jquery.min.js
 
-# Set the working directory
 WORKDIR /app
 
-# Expose the application port
 EXPOSE 3000
 
-# Define the default command to run the application
 CMD ["./guestbook"]
